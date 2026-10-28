@@ -121,6 +121,33 @@
 
     .ghost-link:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
 
+    .language-switch {
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .language-switch button {
+      min-width: 36px;
+      min-height: 28px;
+      border: 0;
+      border-radius: 7px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .language-switch button.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.09);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+
     main {
       width: min(1240px, calc(100% - 40px));
       margin: 18px auto 60px;
@@ -793,126 +820,130 @@
           <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/>
         </svg>
       </span>
-      <span>本地生图</span>
+      <span data-i18n="brand">本地生图</span>
     </div>
     <div class="top-actions">
       <div class="status-pill" id="statusPill">
         <span class="status-dot"></span>
         <span id="statusText">正在检查引擎</span>
       </div>
-      <a class="ghost-link" href="http://127.0.0.1:8188" target="_blank" rel="noopener">原版 ComfyUI ↗</a>
+      <div class="language-switch" role="group" aria-label="Language">
+        <button id="langEn" type="button" data-lang="en">EN</button>
+        <button id="langZh" type="button" data-lang="zh">中文</button>
+      </div>
+      <a class="ghost-link" id="openComfy" href="http://127.0.0.1:8188" target="_blank" rel="noopener" data-i18n="openComfy">原版 ComfyUI ↗</a>
     </div>
   </header>
 
   <main>
     <section class="hero">
       <p class="eyebrow">Local AI Portrait Studio</p>
-      <h1>描述画面，交给本地模型。</h1>
-      <p>不用连接节点。写一句中文，选择模型与画幅，也可以上传参考图；所有提示词与图片都只在本机处理。</p>
+      <h1 data-i18n="heroTitle">描述画面，交给本地模型。</h1>
+      <p data-i18n="heroCopy">不用连接节点。写一句中文，选择模型与画幅，也可以上传参考图；所有提示词与图片都只在本机处理。</p>
     </section>
 
     <section class="workspace">
       <div class="panel composer">
         <div class="panel-heading">
           <div>
-            <h2>画面描述</h2>
-            <p>人物外貌、服装、场景和光线都可以写。</p>
+            <h2 data-i18n="promptHeading">画面描述</h2>
+            <p data-i18n="promptSubtitle">人物外貌、服装、场景和光线都可以写。</p>
           </div>
           <span class="model-badge" id="modelBadge">Realistic Vision V6</span>
         </div>
 
         <div class="prompt-wrap">
           <textarea id="prompt" maxlength="2000" spellcheck="false">写实摄影，一位28岁成年女性，身穿白色真丝衬衫，坐在酒店窗边，午后柔光，浅景深，真实皮肤纹理，85毫米镜头</textarea>
-          <button class="clear-button" id="clearPrompt" type="button">清空</button>
+          <button class="clear-button" id="clearPrompt" type="button" data-i18n="clear">清空</button>
         </div>
 
-        <div class="chips" aria-label="快捷描述">
-          <button class="chip" type="button" data-add="，窗边自然光，柔和阴影">窗边自然光</button>
-          <button class="chip" type="button" data-add="，酒店卧室，暖色台灯，浅景深">酒店卧室</button>
-          <button class="chip" type="button" data-add="，35毫米胶片质感，细腻颗粒，自然肤色">胶片质感</button>
-          <button class="chip" type="button" data-add="，高级时尚摄影，极简背景，柔和轮廓光">时尚摄影</button>
-          <button class="chip" id="inspiration" type="button">换一个灵感 ✦</button>
+        <div class="chips" id="promptChips" aria-label="快捷描述">
+          <button class="chip" type="button" data-chip="0">窗边自然光</button>
+          <button class="chip" type="button" data-chip="1">酒店卧室</button>
+          <button class="chip" type="button" data-chip="2">胶片质感</button>
+          <button class="chip" type="button" data-chip="3">时尚摄影</button>
+          <button class="chip" id="inspiration" type="button" data-i18n="newIdea">换一个灵感 ✦</button>
         </div>
 
         <div class="reference-block">
           <div class="reference-heading">
-            <label>参考图（可选）</label>
-            <span>上传后自动进入图生图</span>
+            <label data-i18n="referenceTitle">参考图（可选）</label>
+            <span data-i18n="referenceHint">上传后自动进入图生图</span>
           </div>
           <div class="reference-drop" id="referenceDrop" role="button" tabindex="0" aria-label="上传参考图">
             <div class="reference-empty" id="referenceEmpty">
               <span class="upload-plus">+</span>
               <span>
-                <strong>上传人物或场景参考图</strong>
-                <small>点击或拖入图片 · PNG / JPG / WebP</small>
+                <strong data-i18n="uploadTitle">上传人物或场景参考图</strong>
+                <small data-i18n="uploadHint">点击或拖入图片 · PNG / JPG / WebP</small>
               </span>
             </div>
-            <img class="reference-preview" id="referencePreview" alt="参考图预览" hidden>
+            <img class="reference-preview" id="referencePreview" alt="参考图预览" data-i18n-alt="referencePreviewAlt" hidden>
             <div class="reference-overlay" id="referenceOverlay" hidden>
               <span class="reference-meta" id="referenceMeta"></span>
               <span class="reference-actions">
-                <button class="reference-action" id="replaceReference" type="button">更换</button>
-                <button class="reference-action" id="removeReference" type="button">移除</button>
+                <button class="reference-action" id="replaceReference" type="button" data-i18n="replace">更换</button>
+                <button class="reference-action" id="removeReference" type="button" data-i18n="remove">移除</button>
               </span>
             </div>
           </div>
           <input id="referenceFile" type="file" accept="image/png,image/jpeg,image/webp" hidden>
           <div class="img2img-settings" id="img2imgSettings" hidden>
-            <label>重绘强度</label>
+            <label data-i18n="denoise">重绘强度</label>
             <div class="segmented">
               <input id="denoise-light" type="radio" name="denoise" value="0.4">
-              <label for="denoise-light">轻度保留</label>
+              <label for="denoise-light" data-i18n="denoiseLight">轻度保留</label>
               <input id="denoise-balanced" type="radio" name="denoise" value="0.55" checked>
-              <label for="denoise-balanced">平衡</label>
+              <label for="denoise-balanced" data-i18n="denoiseBalanced">平衡</label>
               <input id="denoise-strong" type="radio" name="denoise" value="0.7">
-              <label for="denoise-strong">大幅重绘</label>
+              <label for="denoise-strong" data-i18n="denoiseStrong">大幅重绘</label>
             </div>
           </div>
         </div>
 
         <div class="setting-group model-selector">
-          <label>模型</label>
+          <label data-i18n="model">模型</label>
           <div class="segmented">
             <input id="model-sd15" type="radio" name="model" value="sd15" checked>
-            <label for="model-sd15">SD1.5 快速<small>约 3 分钟</small></label>
+            <label for="model-sd15" data-i18n-html="modelSd15">SD1.5 快速<small>约 3 分钟</small></label>
             <input id="model-sdxl" type="radio" name="model" value="sdxl">
-            <label for="model-sdxl">SDXL 精品<small>约 10–20 分钟</small></label>
+            <label for="model-sdxl" data-i18n-html="modelSdxl">SDXL 精品<small>约 10–20 分钟</small></label>
           </div>
         </div>
 
         <div class="settings-row">
           <div class="setting-group">
-            <label>画幅</label>
+            <label data-i18n="aspect">画幅</label>
             <div class="segmented">
               <input id="ratio-portrait" type="radio" name="ratio" value="portrait" checked>
-              <label for="ratio-portrait">竖图</label>
+              <label for="ratio-portrait" data-i18n="portrait">竖图</label>
               <input id="ratio-square" type="radio" name="ratio" value="square">
-              <label for="ratio-square">方图</label>
+              <label for="ratio-square" data-i18n="square">方图</label>
               <input id="ratio-landscape" type="radio" name="ratio" value="landscape">
-              <label for="ratio-landscape">横图</label>
+              <label for="ratio-landscape" data-i18n="landscape">横图</label>
             </div>
           </div>
           <div class="setting-group">
-            <label>质量</label>
+            <label data-i18n="quality">质量</label>
             <div class="segmented">
               <input id="quality-fast" type="radio" name="quality" value="15" checked>
-              <label for="quality-fast">快速 15 步</label>
+              <label for="quality-fast" data-i18n="qualityFast">快速 15 步</label>
               <input id="quality-high" type="radio" name="quality" value="25">
-              <label for="quality-high">精细 25 步</label>
+              <label for="quality-high" data-i18n="qualityHigh">精细 25 步</label>
             </div>
           </div>
         </div>
 
         <details class="advanced">
-          <summary>高级设置</summary>
+          <summary data-i18n="advanced">高级设置</summary>
           <div class="advanced-grid">
             <div class="field">
-              <label for="negativePrompt">负面提示词（不懂可以不改）</label>
+              <label for="negativePrompt" data-i18n="negative">负面提示词（不懂可以不改）</label>
               <textarea id="negativePrompt" maxlength="2000" spellcheck="false">child, underage, minor, teen, young-looking, cartoon, anime, illustration, 3d render, painting, cgi, lowres, blurry, worst quality, low quality, jpeg artifacts, bad anatomy, bad hands, extra fingers, missing fingers, fused fingers, deformed, disfigured, mutated, extra limbs, watermark, text, signature, logo</textarea>
             </div>
             <div class="field">
-              <label for="seed">种子（留空随机）</label>
-              <input id="seed" type="number" min="0" step="1" placeholder="随机">
+              <label for="seed" data-i18n="seed">种子（留空随机）</label>
+              <input id="seed" type="number" min="0" step="1" placeholder="随机" data-i18n-placeholder="random">
             </div>
           </div>
         </details>
@@ -943,8 +974,8 @@
                 <path d="M4 17l5-5 3.5 3.5 2.5-2.5 5 5"/>
               </svg>
             </div>
-            <strong>你的图片会出现在这里</strong>
-            <span>第一次生成需要先加载模型，请保持页面打开。</span>
+            <strong data-i18n="resultEmptyTitle">你的图片会出现在这里</strong>
+            <span data-i18n="resultEmptyCopy">第一次生成需要先加载模型，请保持页面打开。</span>
           </div>
           <img id="resultImage" alt="生成结果" hidden>
           <div class="progress-shell" id="progressShell">
@@ -957,10 +988,10 @@
         </div>
 
         <div class="result-actions">
-          <span class="result-hint" id="resultHint">生成后会自动保存到本机</span>
+          <span class="result-hint" id="resultHint" data-i18n="resultHint">生成后会自动保存到本机</span>
           <div class="action-buttons">
-            <button class="secondary-button" id="openOutput" type="button">打开输出文件夹</button>
-            <a class="secondary-button" id="downloadButton" href="#" download hidden>下载图片</a>
+            <button class="secondary-button" id="openOutput" type="button" data-i18n="openOutput">打开输出文件夹</button>
+            <a class="secondary-button" id="downloadButton" href="#" download hidden data-i18n="download">下载图片</a>
           </div>
         </div>
       </div>
@@ -968,20 +999,20 @@
 
     <section class="recent-section">
       <div class="section-heading">
-        <h2>最近作品</h2>
-        <p>点击缩略图可查看</p>
+        <h2 data-i18n="recent">最近作品</h2>
+        <p data-i18n="recentHint">点击缩略图可查看</p>
       </div>
       <div class="recent-grid" id="recentGrid">
-        <div class="recent-empty">还没有生成记录</div>
+        <div class="recent-empty" data-i18n="recentEmpty">还没有生成记录</div>
       </div>
     </section>
   </main>
 
   <footer>
-    <span>仅在本机运行 · 图片不上传云端</span>
+    <span data-i18n="privacy">仅在本机运行 · 图片不上传云端</span>
     <div class="footer-links">
-      <button id="openOutputFooter" type="button">图片输出目录</button>
-      <a href="http://127.0.0.1:8188" target="_blank" rel="noopener">高级工作流</a>
+      <button id="openOutputFooter" type="button" data-i18n="outputFolder">图片输出目录</button>
+      <a href="http://127.0.0.1:8188" target="_blank" rel="noopener" data-i18n="advancedWorkflow">高级工作流</a>
     </div>
   </footer>
 
@@ -1019,20 +1050,244 @@
     const referenceMeta = $("#referenceMeta");
     const img2imgSettings = $("#img2imgSettings");
 
+    const copy = {
+      en: {
+        pageTitle: "Local Image Studio",
+        brand: "Local Image Studio",
+        openComfy: "Open ComfyUI ↗",
+        heroTitle: "Describe it. Generate it locally.",
+        heroCopy: "Skip the node graph. Write a prompt, choose a model and aspect ratio, or upload a reference image. Everything stays on your machine.",
+        promptHeading: "Prompt",
+        promptSubtitle: "Describe the person, outfit, scene, and lighting.",
+        clear: "Clear",
+        newIdea: "New idea ✦",
+        chipsAria: "Prompt suggestions",
+        referenceTitle: "Reference image (optional)",
+        referenceHint: "Upload to switch to image-to-image",
+        referenceAria: "Upload a reference image",
+        referencePreviewAlt: "Reference image preview",
+        uploadTitle: "Upload a person or scene",
+        uploadHint: "Click or drop an image · PNG / JPG / WebP",
+        replace: "Replace",
+        remove: "Remove",
+        denoise: "Redraw strength",
+        denoiseLight: "Keep more",
+        denoiseBalanced: "Balanced",
+        denoiseStrong: "Transform",
+        model: "Model",
+        modelSd15: "<span>SD1.5 Fast</span><small>~3 min</small>",
+        modelSdxl: "<span>SDXL Quality</span><small>~10–20 min</small>",
+        aspect: "Aspect",
+        portrait: "Portrait",
+        square: "Square",
+        landscape: "Landscape",
+        quality: "Quality",
+        qualityFast: "Fast · 15",
+        qualityHigh: "Fine · 25",
+        advanced: "Advanced settings",
+        negative: "Negative prompt (leave the default if unsure)",
+        seed: "Seed (blank = random)",
+        random: "Random",
+        resultEmptyTitle: "Your image will appear here",
+        resultEmptyCopy: "The first generation loads the model. Keep this page open.",
+        resultHint: "Generated images are saved locally",
+        openOutput: "Open output folder",
+        download: "Download image",
+        recent: "Recent work",
+        recentHint: "Click a thumbnail to view",
+        recentEmpty: "No generations yet",
+        privacy: "Runs locally · Your images stay on this machine",
+        outputFolder: "Output folder",
+        advancedWorkflow: "Advanced workflows",
+        statusChecking: "Checking engine",
+        statusReady: "Models ready",
+        statusMissing: "Default model missing",
+        statusStartingComfy: "Starting ComfyUI",
+        statusStartingLocal: "Starting local engine",
+        btnPreparing: "Preparing engine",
+        btnGenerate: "Start generating",
+        btnImg2img: "Start img2img",
+        btnGenerating: "Generating",
+        btnGenerateAgain: "Generate again",
+        btnImg2imgAgain: "Img2img again",
+        helperSd15: "SD1.5 usually takes about 3 minutes on this integrated GPU. Keep this page open while it runs.",
+        helperSdxl: "SDXL usually takes 10–20 minutes on this GPU. The first run also loads a 6.5 GB model.",
+        helperImg2img: "Img2img is active. Lower redraw strength preserves more of the original composition and appearance.",
+        stageIdle: "Waiting to generate",
+        stageReadingReference: "Reading reference image",
+        stageQueued: "Queued",
+        stagePreparingTask: "Preparing task",
+        stageLoading: "Loading model",
+        stageUnderstanding: "Reading the prompt",
+        stageNegative: "Preparing negative prompt",
+        stageCanvas: "Preparing canvas",
+        stageSampling: "Generating image",
+        stageDecoding: "Decoding image",
+        stageSaving: "Saving image",
+        stageFinishing: "Finishing",
+        stageComplete: "Complete",
+        stageFailed: "Generation failed",
+        stagePreparingModel: "Preparing model",
+        stageOrganize: "Preparing result",
+        stageSaveReady: "Ready to save",
+        stageViewHistory: "Viewing previous image",
+        promptRequired: "Enter a description first.",
+        uploadType: "Please upload a PNG, JPG, or WebP image.",
+        uploadSize: "Reference images must be 20 MB or smaller.",
+        uploadReady: "Reference added. The next run will use img2img.",
+        uploadError: "This image could not be read. Try a PNG, JPG, or WebP file.",
+        referenceRemoved: "Reference removed. Switched back to text-to-image.",
+        noOutput: "The task finished but no output image was found.",
+        imageAlt: "Generated image",
+        saved: "Image generated and saved locally.",
+        genericError: "Generation failed. Please try again.",
+        requestFailed: "Request failed",
+        defaultModelMissing: "The default model is missing. Check the checkpoints folder.",
+        recentUnavailable: "Recent work is unavailable",
+      },
+      zh: {
+        pageTitle: "本地生图",
+        brand: "本地生图",
+        openComfy: "原版 ComfyUI ↗",
+        heroTitle: "描述画面，交给本地模型。",
+        heroCopy: "不用连接节点。写一句中文，选择模型与画幅，也可以上传参考图；所有提示词与图片都只在本机处理。",
+        promptHeading: "画面描述",
+        promptSubtitle: "人物外貌、服装、场景和光线都可以写。",
+        clear: "清空",
+        newIdea: "换一个灵感 ✦",
+        chipsAria: "快捷描述",
+        referenceTitle: "参考图（可选）",
+        referenceHint: "上传后自动进入图生图",
+        referenceAria: "上传参考图",
+        referencePreviewAlt: "参考图预览",
+        uploadTitle: "上传人物或场景参考图",
+        uploadHint: "点击或拖入图片 · PNG / JPG / WebP",
+        replace: "更换",
+        remove: "移除",
+        denoise: "重绘强度",
+        denoiseLight: "轻度保留",
+        denoiseBalanced: "平衡",
+        denoiseStrong: "大幅重绘",
+        model: "模型",
+        modelSd15: "<span>SD1.5 快速</span><small>约 3 分钟</small>",
+        modelSdxl: "<span>SDXL 精品</span><small>约 10–20 分钟</small>",
+        aspect: "画幅",
+        portrait: "竖图",
+        square: "方图",
+        landscape: "横图",
+        quality: "质量",
+        qualityFast: "快速 15 步",
+        qualityHigh: "精细 25 步",
+        advanced: "高级设置",
+        negative: "负面提示词（不懂可以不改）",
+        seed: "种子（留空随机）",
+        random: "随机",
+        resultEmptyTitle: "你的图片会出现在这里",
+        resultEmptyCopy: "第一次生成需要先加载模型，请保持页面打开。",
+        resultHint: "生成后会自动保存到本机",
+        openOutput: "打开输出文件夹",
+        download: "下载图片",
+        recent: "最近作品",
+        recentHint: "点击缩略图可查看",
+        recentEmpty: "还没有生成记录",
+        privacy: "仅在本机运行 · 图片不上传云端",
+        outputFolder: "图片输出目录",
+        advancedWorkflow: "高级工作流",
+        statusChecking: "正在检查引擎",
+        statusReady: "模型已就绪",
+        statusMissing: "缺少默认模型",
+        statusStartingComfy: "正在启动 ComfyUI",
+        statusStartingLocal: "正在启动本机引擎",
+        btnPreparing: "正在准备引擎",
+        btnGenerate: "开始生成",
+        btnImg2img: "开始图生图",
+        btnGenerating: "正在生成",
+        btnGenerateAgain: "重新生成",
+        btnImg2imgAgain: "重新图生图",
+        helperSd15: "SD1.5 在当前核显环境大约需要 3 分钟。生成期间可以留在本页查看进度。",
+        helperSdxl: "SDXL 精品在核显上大约需要 10–20 分钟；首次生成会额外加载约 6.5 GB 模型。",
+        helperImg2img: "图生图已启用：低重绘强度会更多保留原图构图与人物特征，提示词决定服装、环境和氛围。",
+        stageIdle: "等待生成",
+        stageReadingReference: "正在读取参考图",
+        stageQueued: "正在排队",
+        stagePreparingTask: "准备任务",
+        stageLoading: "正在加载模型",
+        stageUnderstanding: "正在理解画面描述",
+        stageNegative: "正在整理负面描述",
+        stageCanvas: "正在准备画布",
+        stageSampling: "正在生成画面",
+        stageDecoding: "正在解码图片",
+        stageSaving: "正在保存图片",
+        stageFinishing: "正在整理结果",
+        stageComplete: "生成完成",
+        stageFailed: "生成失败",
+        stagePreparingModel: "正在准备模型",
+        stageOrganize: "正在整理结果",
+        stageSaveReady: "准备保存",
+        stageViewHistory: "查看历史作品",
+        promptRequired: "请先填写画面描述。",
+        uploadType: "请上传 PNG、JPG 或 WebP 图片。",
+        uploadSize: "参考图不能超过 20 MB。",
+        uploadReady: "参考图已加入，下次生成会自动使用图生图。",
+        uploadError: "无法读取这张图片，请换成 PNG、JPG 或 WebP。",
+        referenceRemoved: "已移除参考图，恢复为文生图。",
+        noOutput: "任务完成了，但没有找到输出图片。",
+        imageAlt: "AI 生成图片",
+        saved: "图片已生成并保存到本机。",
+        genericError: "生成失败，请稍后重试。",
+        requestFailed: "请求失败",
+        defaultModelMissing: "没有找到 SD1.5 默认模型，请检查 checkpoints 目录。",
+        recentUnavailable: "暂时无法读取历史作品",
+      },
+    };
+
+    const promptExamples = {
+      en: "Photorealistic editorial portrait of a 28-year-old adult woman in a white silk blouse, seated by a hotel window, soft afternoon light, shallow depth of field, realistic skin texture, 85mm lens",
+      zh: "写实摄影，一位28岁成年女性，身穿白色真丝衬衫，坐在酒店窗边，午后柔光，浅景深，真实皮肤纹理，85毫米镜头",
+    };
+
+    const promptChips = {
+      en: [
+        ["Window light", ", soft natural window light, gentle shadows"],
+        ["Hotel room", ", hotel bedroom, warm lamp light, shallow depth of field"],
+        ["Film look", ", 35mm film look, fine grain, natural skin tones"],
+        ["Fashion", ", high-fashion editorial photography, minimal background, soft rim light"],
+      ],
+      zh: [
+        ["窗边自然光", "，窗边自然光，柔和阴影"],
+        ["酒店卧室", "，酒店卧室，暖色台灯，浅景深"],
+        ["胶片质感", "，35毫米胶片质感，细腻颗粒，自然肤色"],
+        ["时尚摄影", "，高级时尚摄影，极简背景，柔和轮廓光"],
+      ],
+    };
+
     const modelProfiles = {
       sd15: {
         badge: "Realistic Vision V6",
-        helper: "SD1.5 在当前核显环境大约需要 3 分钟。生成期间可以留在本页查看进度。",
+        helperKey: "helperSd15",
         sizes: { portrait: [512, 768], square: [512, 512], landscape: [768, 512] },
       },
       sdxl: {
         badge: "CyberRealistic XL",
-        helper: "SDXL 精品在核显上大约需要 10–20 分钟；首次生成会额外加载约 6.5 GB 模型。",
+        helperKey: "helperSdxl",
         sizes: { portrait: [832, 1216], square: [1024, 1024], landscape: [1216, 832] },
       },
     };
 
+    const queryLanguage = new URLSearchParams(window.location.search).get("lang");
+    let savedLanguage = null;
+    try { savedLanguage = localStorage.getItem("localImageStudioLanguage"); } catch (_) {}
+    const initialLanguage = ["en", "zh"].includes(queryLanguage)
+      ? queryLanguage
+      : (savedLanguage || (navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en"));
+
     const state = {
+      language: initialLanguage,
+      stageKey: "stageIdle",
+      stageState: "",
+      progressLabelKey: "stagePreparingTask",
+      statusKind: "starting",
+      statusKey: "statusChecking",
       ready: false,
       profile: "sd15",
       profileAvailability: { sd15: false, sdxl: false },
@@ -1051,34 +1306,103 @@
     };
 
     const stages = {
-      "1": ["正在加载模型", 16],
-      "2": ["正在理解画面描述", 23],
-      "3": ["正在整理负面描述", 26],
-      "4": ["正在准备画布", 30],
-      "5": ["正在生成画面", 34],
-      "6": ["正在解码图片", 88],
-      "7": ["正在保存图片", 94],
+      "1": ["stageLoading", 16],
+      "2": ["stageUnderstanding", 23],
+      "3": ["stageNegative", 26],
+      "4": ["stageCanvas", 30],
+      "5": ["stageSampling", 34],
+      "6": ["stageDecoding", 88],
+      "7": ["stageSaving", 94],
     };
 
-    const inspirations = [
-      "写实摄影，一位28岁成年女性，白色棉麻连衣裙，海边傍晚，微风吹动头发，柔和逆光，自然肤色，85毫米镜头",
-      "写实摄影，一位30岁成年女性，深色西装，现代咖啡馆窗边，侧脸，电影感光影，浅景深，细腻皮肤纹理",
-      "写实摄影，一位27岁成年女性，黑色针织上衣，室内暖光，复古胶片质感，安静自然的表情，半身肖像",
-      "写实摄影，一位32岁成年女性，站在雨后的城市街头，透明雨伞，霓虹倒影，自然妆容，纪实人像",
-    ];
+    const inspirations = {
+      en: [
+        "Photorealistic editorial photo of a 28-year-old adult woman in a linen dress by the sea at sunset, wind in her hair, gentle backlight, natural skin tones, 85mm lens",
+        "Photorealistic portrait of a 30-year-old adult woman in a dark suit by a modern cafe window, cinematic side lighting, shallow depth of field, detailed skin texture",
+        "Photorealistic half-body portrait of a 27-year-old adult woman in a black knit top, warm interior light, vintage film look, calm expression",
+        "Photorealistic documentary portrait of a 32-year-old adult woman on a city street after rain, clear umbrella, neon reflections, natural makeup",
+      ],
+      zh: [
+        "写实摄影，一位28岁成年女性，白色棉麻连衣裙，海边傍晚，微风吹动头发，柔和逆光，自然肤色，85毫米镜头",
+        "写实摄影，一位30岁成年女性，深色西装，现代咖啡馆窗边，侧脸，电影感光影，浅景深，细腻皮肤纹理",
+        "写实摄影，一位27岁成年女性，黑色针织上衣，室内暖光，复古胶片质感，安静自然的表情，半身肖像",
+        "写实摄影，一位32岁成年女性，站在雨后的城市街头，透明雨伞，霓虹倒影，自然妆容，纪实人像",
+      ],
+    };
 
-    function setStatus(kind, label) {
+    function t(key) {
+      return copy[state.language][key] || copy.en[key] || key;
+    }
+
+    function localizeError(message) {
+      const text = String(message || "").trim();
+      if (!text) return t("genericError");
+      if (state.language === "en" && /[\u3400-\u9fff]/.test(text)) return t("genericError");
+      return text;
+    }
+
+    function applyLanguage(language, persist = true) {
+      if (!["en", "zh"].includes(language)) language = "en";
+      const previousDefault = promptExamples[state.language];
+      const promptWasDefault = promptInput.value.trim() === previousDefault
+        || Object.values(promptExamples).includes(promptInput.value.trim())
+        || promptInput.value.trim() === "";
+      state.language = language;
+      document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+      document.title = t("pageTitle");
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        element.textContent = t(element.dataset.i18n);
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+        element.innerHTML = t(element.dataset.i18nHtml);
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+        element.placeholder = t(element.dataset.i18nPlaceholder);
+      });
+      document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+        element.alt = t(element.dataset.i18nAlt);
+      });
+      $("#promptChips").setAttribute("aria-label", t("chipsAria"));
+      referenceDrop.setAttribute("aria-label", t("referenceAria"));
+      resultImage.alt = t("imageAlt");
+      document.querySelectorAll(".chip[data-chip]").forEach((button) => {
+        const item = promptChips[language][Number(button.dataset.chip)];
+        if (item) {
+          button.textContent = item[0];
+          button.dataset.add = item[1];
+        }
+      });
+      if (promptWasDefault) promptInput.value = promptExamples[language];
+      $("#langEn").classList.toggle("active", language === "en");
+      $("#langZh").classList.toggle("active", language === "zh");
+      $("#langEn").setAttribute("aria-pressed", String(language === "en"));
+      $("#langZh").setAttribute("aria-pressed", String(language === "zh"));
+      setStatus(state.statusKind, state.statusKey);
+      setStage(state.stageKey, state.stageState);
+      setProgress(state.progress || 1, state.progressLabelKey);
+      updateModelUi();
+      if (persist) {
+        try { localStorage.setItem("localImageStudioLanguage", language); } catch (_) {}
+      }
+      if (state.generating) generateButtonText.textContent = t("btnGenerating");
+    }
+
+    function setStatus(kind, key) {
+      state.statusKind = kind;
+      state.statusKey = key;
       statusPill.classList.remove("ready", "error");
       if (kind === "ready") statusPill.classList.add("ready");
       if (kind === "error") statusPill.classList.add("error");
-      statusText.textContent = label;
+      statusText.textContent = t(key);
     }
 
     function setReady(ready) {
       state.ready = ready;
       if (!state.generating) {
         generateButton.disabled = !ready || !state.profileAvailability[state.profile];
-        generateButtonText.textContent = ready ? (state.referenceData ? "开始图生图" : "开始生成") : "正在准备引擎";
+        generateButtonText.textContent = ready
+          ? t(state.referenceData ? "btnImg2img" : "btnGenerate")
+          : t("btnPreparing");
       }
     }
 
@@ -1091,8 +1415,8 @@
       const profile = modelProfiles[state.profile];
       modelBadge.textContent = profile.badge;
       generationHelper.textContent = state.referenceData
-        ? "图生图已启用：低重绘强度会更多保留原图构图与人物特征，提示词决定服装、环境和氛围。"
-        : profile.helper;
+        ? t("helperImg2img")
+        : t(profile.helperKey);
       setReady(state.ready);
     }
 
@@ -1116,11 +1440,11 @@
     async function prepareReference(file) {
       if (!file) return;
       if (!file.type.startsWith("image/")) {
-        showToast("请上传 PNG、JPG 或 WebP 图片。", true);
+        showToast(t("uploadType"), true);
         return;
       }
       if (file.size > 20 * 1024 * 1024) {
-        showToast("参考图不能超过 20 MB。", true);
+        showToast(t("uploadSize"), true);
         return;
       }
       try {
@@ -1140,9 +1464,9 @@
         state.referenceData = canvas.toDataURL("image/jpeg", 0.9);
         state.referenceName = `${file.name} · ${width}×${height}`;
         updateReferenceUi();
-        showToast("参考图已加入，下次生成会自动使用图生图。");
+        showToast(t("uploadReady"));
       } catch (_) {
-        showToast("无法读取这张图片，请换成 PNG、JPG 或 WebP。", true);
+        showToast(t("uploadError"), true);
       }
     }
 
@@ -1151,7 +1475,7 @@
       state.referenceName = "";
       referenceFile.value = "";
       updateReferenceUi();
-      showToast("已移除参考图，恢复为文生图。");
+      showToast(t("referenceRemoved"));
     }
 
     function showToast(message, isError = false) {
@@ -1162,50 +1486,55 @@
       showToast.timer = setTimeout(() => toast.classList.remove("visible"), 4600);
     }
 
-    function setStage(label, stateName = "") {
-      stageText.textContent = label;
+    function setStage(key, stateName = "") {
+      state.stageKey = key;
+      state.stageState = stateName;
+      stageText.textContent = t(key);
       stageDot.className = "stage-dot" + (stateName ? " " + stateName : "");
     }
 
-    function setProgress(value, label = "") {
+    function setProgress(value, labelKey = "") {
       const clamped = Math.max(1, Math.min(100, Number(value) || 0));
       state.progress = clamped;
+      if (labelKey) state.progressLabelKey = labelKey;
       progressBar.style.width = clamped + "%";
       progressPercent.textContent = Math.round(clamped) + "%";
-      if (label) progressLabel.textContent = label;
+      progressLabel.textContent = t(state.progressLabelKey);
     }
 
     function showBusy() {
       emptyState.hidden = true;
       resultImage.hidden = true;
       progressShell.classList.add("visible");
-      setStage(state.referenceData ? "正在读取参考图" : "正在排队", "active");
-      setProgress(2, "准备任务");
+      setStage(state.referenceData ? "stageReadingReference" : "stageQueued", "active");
+      setProgress(2, "stagePreparingTask");
       generateButton.classList.add("busy");
       generateButton.disabled = true;
-      generateButtonText.textContent = "正在生成";
+      generateButtonText.textContent = t("btnGenerating");
     }
 
     function showIdle() {
       progressShell.classList.remove("visible");
       generateButton.classList.remove("busy");
       generateButton.disabled = !state.ready;
-      generateButtonText.textContent = state.ready ? (state.referenceData ? "开始图生图" : "开始生成") : "正在准备引擎";
+      generateButtonText.textContent = state.ready
+        ? t(state.referenceData ? "btnImg2img" : "btnGenerate")
+        : t("btnPreparing");
     }
 
     function showSuccess(images, elapsed) {
       const image = images && images[0];
       if (!image) {
-        showFailure("任务完成了，但没有找到输出图片。");
+        showFailure(t("noOutput"));
         return;
       }
       state.currentImage = image;
       resultImage.src = image.url;
-      resultImage.alt = "AI 生成图片";
+      resultImage.alt = t("imageAlt");
       resultImage.hidden = false;
       emptyState.hidden = true;
       progressShell.classList.remove("visible");
-      setStage("生成完成", "success");
+      setStage("stageComplete", "success");
       downloadButton.href = image.download_url;
       downloadButton.download = image.filename || "generated.png";
       downloadButton.hidden = false;
@@ -1216,7 +1545,7 @@
       showIdle();
       elapsedText.textContent = formatElapsed(elapsed || (Date.now() - state.startedAt) / 1000);
       loadRecent();
-      showToast("图片已生成并保存到本机。");
+      showToast(t("saved"));
     }
 
     function showFailure(message) {
@@ -1226,10 +1555,12 @@
       stopSocket();
       generateButton.classList.remove("busy");
       generateButton.disabled = !state.ready;
-      generateButtonText.textContent = state.ready ? (state.referenceData ? "重新图生图" : "重新生成") : "正在准备引擎";
+      generateButtonText.textContent = state.ready
+        ? t(state.referenceData ? "btnImg2imgAgain" : "btnGenerateAgain")
+        : t("btnPreparing");
       progressShell.classList.remove("visible");
-      setStage("生成失败", "error");
-      showToast(message || "生成失败，请稍后重试。", true);
+      setStage("stageFailed", "error");
+      showToast(localizeError(message), true);
     }
 
     function clearTimers() {
@@ -1270,7 +1601,7 @@
           try { message = JSON.parse(event.data); } catch (_) { return; }
           const data = message.data || {};
           if (message.type === "progress" && Number(data.max) > 0) {
-            setProgress(5 + (Number(data.value) / Number(data.max)) * 83, "正在采样");
+            setProgress(5 + (Number(data.value) / Number(data.max)) * 83, "stageSampling");
           }
           if (message.type === "executing" && data.node) {
             const info = stages[String(data.node)];
@@ -1280,11 +1611,11 @@
             }
           }
           if (message.type === "executed" && data.node === "7") {
-            setProgress(98, "正在整理结果");
+            setProgress(98, "stageOrganize");
           }
           if (message.type === "execution_error") {
-            const detail = data.exception_message || "生成过程出现错误";
-            showFailure(String(detail));
+            const detail = data.exception_message || t("genericError");
+            showFailure(localizeError(detail));
           }
         };
       } catch (_) {
@@ -1303,7 +1634,10 @@
       });
       let data = {};
       try { data = await response.json(); } catch (_) {}
-      if (!response.ok) throw new Error(data.error || `请求失败 (${response.status})`);
+      if (!response.ok) {
+        console.warn("Local API error:", data.error || response.status);
+        throw new Error(localizeError(data.error || `${t("requestFailed")} (${response.status})`));
+      }
       return data;
     }
 
@@ -1323,22 +1657,22 @@
 
         if (data.ready && state.profileAvailability.sd15) {
           state.ready = true;
-          setStatus("ready", "模型已就绪");
+          setStatus("ready", "statusReady");
           if (initial) loadRecent();
         } else {
           state.ready = false;
           if (data.ready) {
-            setStatus("error", "缺少默认模型");
-            showToast("没有找到 SD1.5 默认模型，请检查 checkpoints 目录。", true);
+            setStatus("error", "statusMissing");
+            showToast(t("defaultModelMissing"), true);
           } else {
-            setStatus("starting", "正在启动 ComfyUI");
+            setStatus("starting", "statusStartingComfy");
           }
         }
         setReady(state.ready);
       } catch (error) {
         state.ready = false;
         setReady(false);
-        setStatus("starting", "正在启动本机引擎");
+        setStatus("starting", "statusStartingLocal");
       }
       state.healthTimer = setTimeout(() => checkHealth(false), 2500);
     }
@@ -1347,7 +1681,7 @@
       if (!state.ready || state.generating) return;
       const prompt = promptInput.value.trim();
       if (!prompt) {
-        showToast("请先填写画面描述。", true);
+        showToast(t("promptRequired"), true);
         promptInput.focus();
         return;
       }
@@ -1397,18 +1731,18 @@
           return;
         }
         if (data.state === "error") {
-          showFailure(data.error);
+          showFailure(localizeError(data.error));
           return;
         }
         if (data.state === "queued") {
-          setStage("正在排队", "active");
-          setProgress(Math.max(3, state.progress), "等待引擎");
+          setStage("stageQueued", "active");
+          setProgress(Math.max(3, state.progress), "stageQueued");
         } else if (data.state === "running") {
-          setStage(state.progress > 33 ? "正在生成画面" : "正在准备模型", "active");
-          if (state.progress < 9) setProgress(9, "加载模型");
+          setStage(state.progress > 33 ? "stageSampling" : "stagePreparingModel", "active");
+          if (state.progress < 9) setProgress(9, "stageLoading");
         } else if (data.state === "finishing") {
-          setStage("正在整理结果", "active");
-          setProgress(Math.max(92, state.progress), "准备保存");
+          setStage("stageFinishing", "active");
+          setProgress(Math.max(92, state.progress), "stageSaveReady");
         }
         if (data.elapsed) elapsedText.textContent = formatElapsed(data.elapsed);
       } catch (error) {
@@ -1429,7 +1763,7 @@
       try {
         const data = await requestJson("/api/recent");
         if (!data.images || data.images.length === 0) {
-          recentGrid.innerHTML = '<div class="recent-empty">还没有生成记录</div>';
+          recentGrid.innerHTML = `<div class="recent-empty">${t("recentEmpty")}</div>`;
           return;
         }
         recentGrid.replaceChildren();
@@ -1453,12 +1787,12 @@
             downloadButton.href = image.download_url;
             downloadButton.download = image.filename || "generated.png";
             downloadButton.hidden = false;
-            setStage("查看历史作品", "success");
+            setStage("stageViewHistory", "success");
           });
           recentGrid.append(card);
         }
       } catch (_) {
-        recentGrid.innerHTML = '<div class="recent-empty">暂时无法读取历史作品</div>';
+        recentGrid.innerHTML = `<div class="recent-empty">${t("recentUnavailable")}</div>`;
       }
     }
 
@@ -1467,7 +1801,7 @@
       promptInput.focus();
     });
 
-    document.querySelectorAll(".chip[data-add]").forEach((button) => {
+    document.querySelectorAll(".chip[data-chip]").forEach((button) => {
       button.addEventListener("click", () => {
         const addition = button.dataset.add;
         promptInput.value = promptInput.value.trim().replace(/[，,]\s*$/, "") + addition;
@@ -1506,9 +1840,13 @@
       input.addEventListener("change", updateModelUi);
     });
 
+    $("#langEn").addEventListener("click", () => applyLanguage("en"));
+    $("#langZh").addEventListener("click", () => applyLanguage("zh"));
+
     $("#inspiration").addEventListener("click", () => {
       const current = promptInput.value;
-      const next = inspirations.find((item) => item !== current) || inspirations[0];
+      const candidates = inspirations[state.language];
+      const next = candidates.find((item) => item !== current) || candidates[0];
       promptInput.value = next;
       promptInput.focus();
     });
@@ -1524,6 +1862,7 @@
       $(".recent-section").hidden = true;
     }
 
+    applyLanguage(initialLanguage, false);
     checkHealth(true);
   </script>
 </body>

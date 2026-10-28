@@ -22,6 +22,8 @@ instance, and keeps prompts and generated images on your machine.
   denoising presets for subtle edits or larger reinterpretations.
 - **Chinese prompt support.** Chinese is translated offline before CLIP
   encoding; English prompts work directly.
+- **Bilingual interface.** Switch between English and Simplified Chinese from
+  the top-right control. The choice is remembered in the browser.
 - **Small hardware support.** The included DirectML patch and `--lowvram`
   workflow were tested on an AMD Radeon 780M integrated GPU.
 
@@ -192,6 +194,9 @@ The launcher starts the local UI, waits for it, and opens:
 http://127.0.0.1:8190
 ```
 
+Add `?lang=en` or `?lang=zh` to force a language for a session. Without an
+override, the app follows the browser language on first launch.
+
 To create a desktop shortcut on Windows, set:
 
 - Target: `C:\ComfyUI\venv\Scripts\pythonw.exe`
@@ -227,8 +232,7 @@ photos.
 
 - DirectML remains slower than CUDA and is sensitive to ComfyUI/PyTorch versions.
 - SDXL is substantially slower with `--lowvram` on integrated GPUs.
-- The current UI labels are in Simplified Chinese, while prompts accept both
-  Chinese and English.
+- The UI supports English and Simplified Chinese; prompts accept both languages.
 - The reference-image feature is standard img2img, not exact identity cloning.
 
 ## Validation performed

@@ -1,0 +1,91 @@
+# Offline Chinese-to-English translation glossary.
+# Format: Chinese term = English replacement
+#
+# The bundled glossary intentionally contains general photography and UI terms.
+# Add project-specific terms locally without committing private content.
+
+# Photography
+写实摄影 = photorealistic photography
+超写实 = hyperrealistic
+写实 = photorealistic
+照片 = raw photo
+高清 = highly detailed
+高画质 = best quality, high resolution
+杰作 = masterpiece
+皮肤纹理 = detailed skin texture, skin pores
+自然光 = natural lighting
+柔光 = soft lighting
+晨光 = soft morning light
+逆光 = backlighting, rim light
+电影感灯光 = cinematic lighting
+电影感 = cinematic
+影棚灯光 = studio lighting
+浅景深 = shallow depth of field, bokeh
+35毫米镜头 = 35mm lens
+50毫米镜头 = 50mm lens
+85毫米镜头 = 85mm lens
+胶片质感 = film grain, analog photo
+单反 = DSLR photo
+
+# Composition
+全身 = full body shot
+半身 = upper body shot
+特写 = close-up
+俯视 = high angle view
+仰视 = low angle view
+侧面 = side view
+背面 = from behind
+看着镜头 = looking at viewer
+横图 = landscape composition
+竖图 = portrait composition
+方图 = square composition
+
+# People and clothing
+成年男性 = adult man
+成年女性 = adult woman
+成年 = adult
+人物 = person
+情侣 = couple
+长发 = long hair
+短发 = short hair
+黑发 = black hair
+金发 = blonde hair
+化妆 = makeup
+口红 = lipstick
+眼线 = eyeliner
+衬衫 = shirt
+白色衬衫 = white shirt
+西装 = suit
+连衣裙 = dress
+针织衫 = knitwear
+外套 = jacket
+高跟鞋 = high heels
+丝袜 = stockings
+眼镜 = glasses
+
+# Poses and scenes
+坐着 = sitting
+站着 = standing
+躺着 = lying down
+卧室 = bedroom
+酒店房间 = hotel room
+客厅 = living room
+窗边 = by the window
+浴室 = bathroom
+街道 = street
+城市 = city
+夜晚 = night
+城市夜景 = city skyline at night
+海边 = seaside
+森林 = forest
+室内 = indoors
+室外 = outdoors
+
+# Mood and quality
+柔和阴影 = soft shadows
+氛围感 = atmospheric mood
+真实肤色 = natural skin tones
+高质量 = high quality
+细节丰富 = richly detailed
+没有文字 = no text
+无水印 = no watermark

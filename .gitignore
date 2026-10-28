@@ -1,0 +1,8 @@
+config.json
+*.log
+__pycache__/
+*.py[cod]
+.edge-*/
+.DS_Store
+Thumbs.db
+

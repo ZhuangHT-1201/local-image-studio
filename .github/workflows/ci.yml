@@ -1,0 +1,23 @@
+name: syntax-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python sources
+        run: python -m py_compile server.py launcher.py custom_nodes/zh_prompt_translate/__init__.py
+      - name: Validate JSON files
+        shell: pwsh
+        run: |
+          Get-Content config.example.json -Raw | ConvertFrom-Json | Out-Null
+          Get-ChildItem workflows/*.json | ForEach-Object {
+            Get-Content $_.FullName -Raw | ConvertFrom-Json | Out-Null
+          }
